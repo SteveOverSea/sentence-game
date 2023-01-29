@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { StoryEntity } from "./story.entity";
 
 @Entity("sentences")
 export class SentenceEntity extends BaseEntity {
@@ -17,4 +18,7 @@ export class SentenceEntity extends BaseEntity {
 
     @Column({ nullable: true })
     authorMail: string;
+
+    @ManyToOne(() => StoryEntity, story => story.sentences)
+    story: StoryEntity;
 }

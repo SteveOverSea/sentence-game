@@ -7,12 +7,16 @@ export class StoryEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        default: false,
+    })
     isFinished: boolean;
 
-    @Column()
+    @Column({
+        default: 0,
+    })
     upvotes: number;
 
-    @OneToMany(() => SentenceEntity, sentence => sentence.id)
+    @OneToMany(() => SentenceEntity, sentence => sentence.story)
     sentences: SentenceEntity[];
 }

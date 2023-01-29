@@ -10,14 +10,25 @@ export class SentenceService {
     constructor(
         @InjectRepository(SentenceEntity)
         private readonly sentenceRepository: Repository<SentenceEntity>
-        ) {}
+    ) {}
 
     getAll(): Observable<Sentence[]> {
-        return from(this.sentenceRepository.find());
+        return from(this.sentenceRepository.find({
+            relations: {
+                story: true
+            }
+        }));
     }
 
     getOne(id: number): Observable<Sentence> {
-        return from(this.sentenceRepository.findOneBy({ id }));
+        return from(this.sentenceRepository.findOne({ 
+            where: {
+                id,
+            },
+            relations: {
+                story: true
+            }
+        }));
     }
 
     create(sentence: Sentence): Observable<Sentence> {
