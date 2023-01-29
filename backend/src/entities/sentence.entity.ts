@@ -15,6 +15,6 @@ export class SentenceEntity extends BaseEntity {
     @Column()
     userId: string;
 
-    @Column()
+    @Column({ nullable: true })
     authorMail: string;
 }
