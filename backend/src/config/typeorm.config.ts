@@ -1,8 +1,16 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { SentenceEntity } from 'src/entities/sentence.entity';
+import { StoryEntity } from 'src/entities/story.entity';
+
 import * as dotenv from 'dotenv';
-import { ExampleModel } from 'src/db-model/db-model.entity';
+
 
 dotenv.config();
+
+const entities = [
+  SentenceEntity, 
+  StoryEntity
+];
 
 export default {
     type: 'postgres',
@@ -12,6 +20,6 @@ export default {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     schema: process.env.DB_SCHEMA,
-    entities: [ExampleModel],
+    entities,
     synchronize: process.env.IS_PRODUCTION !== "true",
   } as TypeOrmModuleOptions;
