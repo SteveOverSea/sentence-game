@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { Observable } from "rxjs";
-import { Story } from "src/entities/story.interface";
+import { Story } from "src/entities/public/story.interface";
 import { DeleteResult, UpdateResult } from "typeorm";
 import { StoryService } from "./story.service";
 

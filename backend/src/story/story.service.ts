@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { from, Observable } from "rxjs";
 import { StoryEntity } from "src/entities/story.entity";
-import { Story } from "src/entities/story.interface";
+import { Story } from "src/entities/public/story.interface";
 import { DeleteResult, Repository, UpdateResult } from "typeorm";
 
 @Injectable()

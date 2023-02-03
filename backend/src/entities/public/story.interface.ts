@@ -1,8 +1,8 @@
-import { SentenceEntity } from "./sentence.entity";
+import { Sentence } from "./sentence.interface";
 
 export interface Story {
     id: number;
     isFinished: boolean;
     upvotes: number;
-    sentences: SentenceEntity[];
+    sentences: Sentence[];
 }

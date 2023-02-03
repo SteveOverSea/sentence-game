@@ -1,1 +1,3 @@
-<input placeholder="a new sentence">
+<form (submit)="onSubmit($event)">
+    <input [formControl]="sentenceControl" placeholder="a new sentence" >
+</form>

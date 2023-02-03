@@ -1,4 +1,4 @@
-import { StoryEntity } from "./story.entity";
+import { Story } from "./story.interface";
 
 export interface Sentence {
     id: number;
@@ -6,5 +6,5 @@ export interface Sentence {
     language: string;
     userId: string;
     authorMail?: string;
-    story: StoryEntity;
+    story: Story;
 }

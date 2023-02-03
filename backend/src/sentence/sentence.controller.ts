@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { Observable } from "rxjs";
-import { Sentence } from "src/entities/sentence.interface";
+import { Sentence } from "src/entities/public/sentence.interface";
 import { DeleteResult, UpdateResult } from "typeorm";
 import { SentenceService } from "./sentence.service";
 
