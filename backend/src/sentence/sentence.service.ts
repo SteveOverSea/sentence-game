@@ -4,13 +4,17 @@ import { from, Observable } from "rxjs";
 import { SentenceEntity } from "src/entities/sentence.entity";
 import { Sentence } from "src/entities/public/sentence.interface";
 import { DeleteResult, Repository, UpdateResult } from "typeorm";
+import { StoryEntity } from "src/entities/story.entity";
 
 @Injectable()
 export class SentenceService {
   
     constructor(
         @InjectRepository(SentenceEntity)
-        private readonly sentenceRepository: Repository<SentenceEntity>
+        private readonly sentenceRepository: Repository<SentenceEntity>,
+        @InjectRepository(StoryEntity)
+        private readonly storyRepository: Repository<StoryEntity>,
+        
     ) {}
 
     getAll(): Observable<Sentence[]> {
@@ -48,7 +52,10 @@ export class SentenceService {
         }));
     }
 
-    create(sentence: Sentence): Observable<Sentence> {
+    createAndUnlock(sentence: Sentence): Observable<Sentence> {
+        this.storyRepository.update(sentence.story, {
+            isLocked: false
+        });
         return from(this.sentenceRepository.save(sentence));
     }
 

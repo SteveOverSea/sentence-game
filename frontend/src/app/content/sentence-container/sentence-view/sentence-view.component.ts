@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Sentence } from "@backend/sentence.interface";
 import { ApiService } from "src/app/services/api.service";
 
 @Component({
@@ -11,12 +12,13 @@ export class SentenceViewComponent implements OnInit {
     constructor(private apiService: ApiService) {}
 
     public ngOnInit(): void {
-        this.apiService.getNextSentence().then((sentence) => {
+        this.apiService.currentSentence.subscribe((sentence: Sentence) => {  
             if (sentence !== null) {            
                 this.sentence = sentence.content
             } else {
                 this.sentence = "Begin a new story!";
             } 
-       });
+        });
+        this.apiService.requestNextSentence();
     }
 }

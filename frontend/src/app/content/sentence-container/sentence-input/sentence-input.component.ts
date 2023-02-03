@@ -17,8 +17,10 @@ export class SentenceInputComponent {
         this.apiService.addNewSentence(this.sentenceControl.value)
         .subscribe((res) => {
             console.log("Post Res", res);
-            if (res) 
+            if (res) {   
                 this.sentenceControl.setValue("");
+                this.apiService.requestNextSentence();
+            }
         });
     }
 }

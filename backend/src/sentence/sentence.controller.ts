@@ -29,7 +29,7 @@ export class SentenceController {
 
     @Post()
     create(@Body() sentence: Sentence): Observable<Sentence> {
-        return this.sentenceService.create(sentence);
+        return this.sentenceService.createAndUnlock(sentence);
     }
 
     @Put(":id")
