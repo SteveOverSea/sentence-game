@@ -70,7 +70,7 @@ export class StoryService {
         return from(this.storyRepository.save(story));
     }
 
-    update(id: number, story: Story): Observable<UpdateResult> {
+    update(id: number, story: Partial<Story>): Observable<UpdateResult> {
         return from(this.storyRepository.update(id, story));
     }
 

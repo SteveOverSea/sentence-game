@@ -30,6 +30,13 @@ export class StoryController {
         return this.storyService.create(story);
     }
 
+    @Put(":id/unlock")
+    unlock(
+        @Param("id") id: number,
+    ): Observable<UpdateResult> {
+        return this.storyService.update(id, { isLocked: false });
+    }
+
     @Put(":id")
     update(
         @Param("id") id: number,

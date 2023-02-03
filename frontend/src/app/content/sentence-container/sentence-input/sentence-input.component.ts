@@ -16,7 +16,6 @@ export class SentenceInputComponent {
         event.preventDefault();
         this.apiService.addNewSentence(this.sentenceControl.value)
         .subscribe((res) => {
-            console.log("Post Res", res);
             if (res) {   
                 this.sentenceControl.setValue("");
                 this.apiService.requestNextSentence();
