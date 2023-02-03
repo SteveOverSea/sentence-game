@@ -13,6 +13,11 @@ export class StoryController {
         return this.storyService.getAll();
     }
 
+    @Get("unlocked")
+    getFirstUnlocked(): Observable<Story> {
+        return this.storyService.getFirstUnlockedAndLock();
+    }
+
     @Get(":id")
     getOne(
         @Param("id") id: number

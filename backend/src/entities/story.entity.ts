@@ -13,6 +13,11 @@ export class StoryEntity extends BaseEntity {
     isFinished: boolean;
 
     @Column({
+        default: false,
+    })
+    isLocked: boolean;
+
+    @Column({
         default: 0,
     })
     upvotes: number;

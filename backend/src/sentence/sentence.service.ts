@@ -7,6 +7,7 @@ import { DeleteResult, Repository, UpdateResult } from "typeorm";
 
 @Injectable()
 export class SentenceService {
+  
     constructor(
         @InjectRepository(SentenceEntity)
         private readonly sentenceRepository: Repository<SentenceEntity>
@@ -16,6 +17,22 @@ export class SentenceService {
         return from(this.sentenceRepository.find({
             relations: {
                 story: true
+            }
+        }));
+    }
+
+    getLastByStoryId(storyId: number): Observable<Sentence> {
+        return from(this.sentenceRepository.findOne({ 
+            relations: {
+                story: true
+            },
+            where: {
+                story: {
+                    id: storyId
+                }
+            },
+            order: {
+                id: "desc"
             }
         }));
     }

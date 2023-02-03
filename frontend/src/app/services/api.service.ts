@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { lastValueFrom, map, Observable } from "rxjs";
 import { Sentence } from "@backend/sentence.interface"
+import { Story } from "@backend/story.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -10,11 +11,16 @@ export class ApiService {
 
     constructor(private http: HttpClient) {}
 
-    public getAllSentences(): Observable<Sentence[]> {
-        const res = 
-            this.http.get<Sentence[]>('http://localhost:3000/api/sentence')
-        ;
-        return res;
+    public async getNextSentence(): Promise<Sentence> {
+
+        const nextStoryId: number = await lastValueFrom(
+            this.http.get<Story>('http://localhost:3000/api/story/unlocked')
+            .pipe(map(story => story.id))
+        );
+
+        return await lastValueFrom(
+            this.http.get<Sentence>('http://localhost:3000/api/sentence/last/' + nextStoryId)
+        );
     }
 
     public addNewSentence(text: string): Observable<any> {

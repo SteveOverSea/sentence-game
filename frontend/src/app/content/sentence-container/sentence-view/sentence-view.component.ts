@@ -11,8 +11,12 @@ export class SentenceViewComponent implements OnInit {
     constructor(private apiService: ApiService) {}
 
     public ngOnInit(): void {
-        this.apiService.getAllSentences().subscribe(res => {
-            this.sentence = res[0].content;
-        });
+        this.apiService.getNextSentence().then((sentence) => {
+            if (sentence !== null) {            
+                this.sentence = sentence.content
+            } else {
+                this.sentence = "Begin a new story!";
+            } 
+       });
     }
 }

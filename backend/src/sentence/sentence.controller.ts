@@ -13,6 +13,13 @@ export class SentenceController {
         return this.sentenceService.getAll();
     }
 
+    @Get("last/:id")
+    getLastByStoryId(
+        @Param("id") storyId: number
+    ): Observable<Sentence> {
+        return this.sentenceService.getLastByStoryId(storyId);
+    }
+
     @Get(":id")
     getOne(
         @Param("id") id: number
