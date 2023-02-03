@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SentenceContainerModule } from './content/sentence-container/sentence-container.module';
 import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
@@ -14,7 +15,8 @@ import { LayoutModule } from './layout/layout.module';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        LayoutModule
+        LayoutModule,
+        SentenceContainerModule
     ]
 })
 export class AppModule { }

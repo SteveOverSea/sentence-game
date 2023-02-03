@@ -1,11 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TestComponent } from './content/test/test.component';
+import { SentenceContainerComponent } from './content/sentence-container/sentence-container.component';
+import { StoryContainerComponent } from './content/story-container/story-container.component';
 
 const routes: Routes = [
   {
-    path: 'test',
-    component: TestComponent
+    path: '',
+    component: SentenceContainerComponent
+  },
+  {
+    path: 'popular-stories',
+    component: StoryContainerComponent
+  },
+  {
+    path: 'random-stories',
+    component: StoryContainerComponent
   }
 ];
 

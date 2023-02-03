@@ -6,8 +6,8 @@ type LayoutConfig = {
 
 const navBarItems: NavBarItem[] = [
     { routerLink: '', label : 'HOME'},
-    { routerLink: 'test', label : 'NAV 2'},
-    { routerLink: 'test', label : 'NAV 3'},
+    { routerLink: 'popular-stories', label : 'popular stories'},
+    { routerLink: 'random-stories', label : 'random stories'},
 ];
 
 const LAYOUT_CONFIG: LayoutConfig = { navBarItems };
