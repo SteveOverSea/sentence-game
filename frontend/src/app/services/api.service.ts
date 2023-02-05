@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { lastValueFrom, map, Observable, Subject, take, tap } from "rxjs";
+import { lastValueFrom, map, Observable, Subject, take } from "rxjs";
 import { Sentence } from "@backend/sentence.interface"
 import { Story } from "@backend/story.interface";
 import { SocketService } from "./socket.service";
