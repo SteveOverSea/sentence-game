@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { from, Observable, of } from "rxjs";
+import { from, Observable } from "rxjs";
 import { StoryEntity } from "src/entities/story.entity";
 import { Story } from "src/entities/public/story.interface";
 import { DeleteResult, Repository, UpdateResult } from "typeorm";
@@ -31,7 +31,7 @@ export class StoryService {
             }
         }));
     }
-
+    
     getFirstUnlockedAndLock(): Observable<Story> {
         return from(this.findFirstUnlockedAndLock());
     }

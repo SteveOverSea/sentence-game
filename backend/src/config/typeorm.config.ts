@@ -3,13 +3,15 @@ import { SentenceEntity } from 'src/entities/sentence.entity';
 import { StoryEntity } from 'src/entities/story.entity';
 
 import * as dotenv from 'dotenv';
+import { LockedStoryEntity } from 'src/entities/locked-story.entity';
 
 
 dotenv.config();
 
 const entities = [
   SentenceEntity, 
-  StoryEntity
+  StoryEntity,
+  LockedStoryEntity
 ];
 
 export default {

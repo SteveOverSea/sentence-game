@@ -6,4 +6,8 @@ import { Socket } from "ngx-socket-io";
 })
 export class SocketService {
     constructor(private socket: Socket) {}
+
+    public verifyReceivedStoryId( storyId: number): void {
+        this.socket.emit('receivedStory', { storyId });
+    }
 }
