@@ -1,6 +1,6 @@
 import { Story } from './public/story.interface';
 
 export interface LockedStory {
-  userId: string;
+  clientId: string;
   story: Partial<Story>;
 }

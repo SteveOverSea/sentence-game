@@ -23,10 +23,9 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleEvent(
     @ConnectedSocket() client: Socket,
     @MessageBody('storyId') storyId: number,
-    @MessageBody('userId') userId: string,
   ): Promise<number> {
     this.lockedStoryService.add({
-      userId,
+      clientId: client.id,
       story: { id: storyId },
     });
     return await this.sentenceService.countSentences(storyId);

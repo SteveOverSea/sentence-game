@@ -10,7 +10,7 @@ import { StoryEntity } from './story.entity';
 @Entity('locked-stories')
 export class LockedStoryEntity extends BaseEntity {
   @PrimaryColumn()
-  userId: string;
+  clientId: string;
 
   @OneToOne(() => StoryEntity)
   @JoinColumn()

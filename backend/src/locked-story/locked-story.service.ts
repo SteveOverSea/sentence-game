@@ -15,13 +15,13 @@ export class LockedStoryService {
     this.lockedStoryRepository.save(lockedStory);
   }
 
-  remove(userId: string): void {
-    this.lockedStoryRepository.delete({ userId });
+  remove(clientId: string): void {
+    this.lockedStoryRepository.delete({ clientId });
   }
 
-  async has(userId: string): Promise<boolean> {
+  async has(clientId: string): Promise<boolean> {
     const found = await this.lockedStoryRepository.findOne({
-      where: { userId },
+      where: { clientId },
     });
     if (found) {
       return Promise.resolve(true);
@@ -30,10 +30,10 @@ export class LockedStoryService {
     }
   }
 
-  get(userId: string): Promise<LockedStory> {
+  get(clientId: string): Promise<LockedStory> {
     return this.lockedStoryRepository.findOne({
       where: {
-        userId,
+        clientId,
       },
       relations: {
         story: true,
