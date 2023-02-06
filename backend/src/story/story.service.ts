@@ -1,80 +1,84 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { from, Observable } from "rxjs";
-import { StoryEntity } from "src/entities/story.entity";
-import { Story } from "src/entities/public/story.interface";
-import { DeleteResult, Repository, UpdateResult } from "typeorm";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { from, Observable } from 'rxjs';
+import { StoryEntity } from 'src/entities/story.entity';
+import { Story } from 'src/entities/public/story.interface';
+import { DeleteResult, Not, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class StoryService {
- 
-    constructor(
-        @InjectRepository(StoryEntity)
-        private readonly storyRepository: Repository<StoryEntity>,
-    ) {}
+  constructor(
+    @InjectRepository(StoryEntity)
+    private readonly storyRepository: Repository<StoryEntity>,
+  ) {}
 
-    getAll(): Observable<Story[]> {
-        return from(this.storyRepository.find({
-            relations: {
-                sentences: true
-            }
-        }));
+  getAll(): Observable<Story[]> {
+    return from(
+      this.storyRepository.find({
+        relations: {
+          sentences: true,
+        },
+      }),
+    );
+  }
+
+  getOne(id: number): Observable<Story> {
+    return from(
+      this.storyRepository.findOne({
+        where: {
+          id,
+        },
+        relations: {
+          sentences: true,
+        },
+      }),
+    );
+  }
+
+  getFirstUnlockedAndLock(userId: string): Observable<Story> {
+    return from(this.findFirstUnlockedAndLock(userId));
+  }
+
+  private async findFirstUnlockedAndLock(userId: string): Promise<Story> {
+    const firstUnlocked = await this.storyRepository.findOne({
+      relations: {
+        sentences: true,
+      },
+      where: {
+        isLocked: false,
+        lastEditedBy: Not(userId),
+      },
+    });
+
+    if (firstUnlocked === null) {
+      return this.storyRepository.save({
+        isLocked: true,
+      });
     }
 
-    getOne(id: number): Observable<Story> {
-        return from(this.storyRepository.findOne({
-            where: {
-                id,
-            },
-            relations: {
-                sentences: true
-            }
-        }));
-    }
-    
-    getFirstUnlockedAndLock(): Observable<Story> {
-        return from(this.findFirstUnlockedAndLock());
-    }
+    await this.storyRepository.update(firstUnlocked.id, {
+      isLocked: true,
+    });
 
-    private async findFirstUnlockedAndLock(): Promise<Story> {
-        const firstUnlocked = await this.storyRepository.findOne({
-            where: {
-                isLocked: false
-            },
-            relations: {
-                sentences: true
-            }
-        });
+    return this.storyRepository.findOne({
+      where: {
+        id: firstUnlocked.id,
+      },
+      relations: {
+        sentences: true,
+      },
+    });
+  }
 
-        if (firstUnlocked === null) {
-            return this.storyRepository.save({
-                isLocked: true,
-            });
-        }
+  create(story: Story): Observable<Story> {
+    return from(this.storyRepository.save(story));
+  }
 
-        await this.storyRepository.update(firstUnlocked.id, {
-            isLocked: true,
-        });
+  update(id: number, story: Partial<Story>): Observable<UpdateResult> {
+    return from(this.storyRepository.update(id, story));
+  }
 
-        return this.storyRepository.findOne({
-            where: {
-                id: firstUnlocked.id,
-            },
-            relations: {
-                sentences: true
-            }
-        });
-    }
-
-    create(story: Story): Observable<Story> {
-        return from(this.storyRepository.save(story));
-    }
-
-    update(id: number, story: Partial<Story>): Observable<UpdateResult> {
-        return from(this.storyRepository.update(id, story));
-    }
-
-    delete(id: number): Observable<DeleteResult> {
-        return from(this.storyRepository.delete(id));
-    }
+  delete(id: number): Observable<DeleteResult> {
+    return from(this.storyRepository.delete(id));
+  }
 }

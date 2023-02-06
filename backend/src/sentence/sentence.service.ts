@@ -63,6 +63,7 @@ export class SentenceService {
   createAndUnlock(sentence: Sentence): Observable<Sentence> {
     this.storyRepository.update(sentence.story, {
       isLocked: false,
+      lastEditedBy: sentence.userId,
     });
     return from(this.sentenceRepository.save(sentence));
   }

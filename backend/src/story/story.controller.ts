@@ -31,11 +31,13 @@ export class StoryController {
     @Res({ passthrough: true }) response: Response,
   ): Observable<Story> {
     console.log('get story', request.cookies);
-    if (!request.cookies.userId) {
-      response.cookie('userId', randomUUID());
+    let userId = request.cookies.userId;
+    if (!userId) {
+      userId = randomUUID();
+      response.cookie('userId', userId);
     }
 
-    return this.storyService.getFirstUnlockedAndLock();
+    return this.storyService.getFirstUnlockedAndLock(userId);
   }
 
   @Get(':id')
