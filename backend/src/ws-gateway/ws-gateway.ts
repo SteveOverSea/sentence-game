@@ -8,25 +8,28 @@ import {
 } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { LockedStoryService } from 'src/locked-story/locked-story.service';
+import { SentenceService } from 'src/sentence/sentence.service';
 import { StoryService } from 'src/story/story.service';
 
 @WebSocketGateway(3030, { cors: 'http://localhost:4200' })
 export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private storyService: StoryService,
+    private sentenceService: SentenceService,
     private lockedStoryService: LockedStoryService,
   ) {}
 
   @SubscribeMessage('receivedStory')
-  handleEvent(
+  async handleEvent(
     @ConnectedSocket() client: Socket,
     @MessageBody('storyId') storyId: number,
     @MessageBody('userId') userId: string,
-  ): void {
+  ): Promise<number> {
     this.lockedStoryService.add({
       userId,
       story: { id: storyId },
     });
+    return await this.sentenceService.countSentences(storyId);
   }
 
   handleConnection(client: Socket) {

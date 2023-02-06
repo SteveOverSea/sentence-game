@@ -75,4 +75,17 @@ export class SentenceService {
   delete(id: number): Observable<DeleteResult> {
     return from(this.sentenceRepository.delete(id));
   }
+
+  countSentences(storyId: number): Promise<number> {
+    return this.sentenceRepository.count({
+      relations: {
+        story: true,
+      },
+      where: {
+        story: {
+          id: storyId,
+        },
+      },
+    });
+  }
 }

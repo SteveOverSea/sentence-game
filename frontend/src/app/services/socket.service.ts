@@ -15,7 +15,11 @@ export class SocketService {
   }
 
   public verifyReceivedStoryId(storyId: number): void {
-    this.socket.emit('receivedStory', { storyId, userId: this.getUserId() });
+    this.socket.emit(
+      'receivedStory',
+      { storyId, userId: this.getUserId() },
+      (count: any) => console.log('count', count)
+    );
   }
 
   public getUserId(): string {
