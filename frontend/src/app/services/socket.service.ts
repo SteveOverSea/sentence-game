@@ -1,13 +1,21 @@
-import { Injectable } from "@angular/core";
-import { Socket } from "ngx-socket-io";
+import { Injectable } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class SocketService {
-    constructor(private socket: Socket) {}
+  private clientId: string = '';
 
-    public verifyReceivedStoryId( storyId: number): void {
-        this.socket.emit('receivedStory', { storyId });
-    }
+  constructor(private socket: Socket) {
+    socket.once('connected', (clientId: string) => (this.clientId = clientId));
+  }
+
+  public verifyReceivedStoryId(storyId: number): void {
+    this.socket.emit('receivedStory', { storyId });
+  }
+
+  public getClientId(): string {
+    return this.clientId;
+  }
 }
