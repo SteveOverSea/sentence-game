@@ -1,13 +1,18 @@
-import { BaseEntity, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
-import { StoryEntity } from "./story.entity";
+import {
+  BaseEntity,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
+import { StoryEntity } from './story.entity';
 
-@Entity("locked-stories")
+@Entity('locked-stories')
 export class LockedStoryEntity extends BaseEntity {
-    
-    @PrimaryColumn()
-    clientId: string;
+  @PrimaryColumn()
+  userId: string;
 
-    @OneToOne(() => StoryEntity)
-    @JoinColumn()
-    story: StoryEntity;
-}   
+  @OneToOne(() => StoryEntity)
+  @JoinColumn()
+  story: StoryEntity;
+}

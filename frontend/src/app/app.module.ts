@@ -8,24 +8,23 @@ import { SentenceContainerModule } from './content/sentence-container/sentence-c
 import { LayoutModule } from './layout/layout.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { CookieService } from 'ngx-cookie-service';
 
 const config: SocketIoConfig = { url: 'http://localhost:3030' };
 
 @NgModule({
-    declarations: [
-        AppComponent
-    ],
-    providers: [],
-    bootstrap: [AppComponent],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AppRoutingModule,
-        LayoutModule,
-        SentenceContainerModule,
-        SocketIoModule.forRoot(config)
-    ]
+  declarations: [AppComponent],
+  providers: [CookieService],
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    LayoutModule,
+    SentenceContainerModule,
+    SocketIoModule.forRoot(config),
+  ],
 })
-export class AppModule { }
+export class AppModule {}

@@ -17,7 +17,9 @@ export class ApiService {
   public async requestNextSentence(): Promise<void> {
     let nextStoryId: number = await lastValueFrom(
       this.http
-        .get<Story>('http://localhost:3000/api/story/unlocked')
+        .get<Story>('http://localhost:3000/api/story/unlocked', {
+          withCredentials: true,
+        })
         .pipe(map((story) => story.id))
     );
 
@@ -29,7 +31,7 @@ export class ApiService {
         'http://localhost:3000/api/sentence/last/' +
           nextStoryId +
           '/' +
-          this.socketService.getClientId()
+          this.socketService.getUserId()
       )
       .pipe(take(1))
       .subscribe((sentence) => {
@@ -38,12 +40,10 @@ export class ApiService {
   }
 
   public addNewSentence(text: string): Observable<any> {
-    console.log('add new sentence', text, this.currentStoryId);
-
     const res = this.http.post('http://localhost:3000/api/sentence', {
       content: text,
       language: 'en',
-      userId: this.socketService.getClientId(),
+      userId: this.socketService.getUserId(),
       authorMail: null,
       story: this.currentStoryId,
     });

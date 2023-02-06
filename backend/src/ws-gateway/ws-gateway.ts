@@ -6,6 +6,7 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
+import { randomUUID } from 'crypto';
 import { Socket } from 'socket.io';
 import { LockedStoryService } from 'src/locked-story/locked-story.service';
 import { StoryService } from 'src/story/story.service';
@@ -21,17 +22,16 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleEvent(
     @ConnectedSocket() client: Socket,
     @MessageBody('storyId') storyId: number,
+    @MessageBody('userId') userId: string,
   ): void {
-    console.log('received story', storyId, client.id);
     this.lockedStoryService.add({
-      clientId: client.id,
+      userId,
       story: { id: storyId },
     });
   }
 
   handleConnection(client: Socket) {
     console.log('client connected ', client.id);
-    client.emit('connected', client.id);
   }
 
   async handleDisconnect(client: Socket) {
