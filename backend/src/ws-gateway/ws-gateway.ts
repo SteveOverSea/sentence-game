@@ -6,7 +6,6 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
-import { randomUUID } from 'crypto';
 import { Socket } from 'socket.io';
 import { LockedStoryService } from 'src/locked-story/locked-story.service';
 import { StoryService } from 'src/story/story.service';
