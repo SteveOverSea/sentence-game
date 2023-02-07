@@ -8,6 +8,7 @@ describe('LockedStoryService', () => {
   let lockedStoryService: LockedStoryService;
   let dbSeedsService: DbSeedsService;
   const storyId: number = 1;
+  const clientId: string = '1';
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,7 +23,6 @@ describe('LockedStoryService', () => {
   });
 
   it('should add and get a locked entry', async () => {
-    const clientId = '1';
     const lockedStory: LockedStory = {
       clientId,
       story: {
@@ -34,5 +34,15 @@ describe('LockedStoryService', () => {
     const foundStory = await lockedStoryService.get(clientId);
 
     expect(foundStory.story.id).toBe(lockedStory.story.id);
+    expect(await lockedStoryService.has(clientId)).toBe(true);
+  });
+
+  it('should not find a lockedStory after removing it', async () => {
+    await lockedStoryService.remove(clientId);
+
+    const foundStory = await lockedStoryService.get(clientId);
+
+    expect(foundStory).toBeNull();
+    expect(await lockedStoryService.has(clientId)).toBe(false);
   });
 });
