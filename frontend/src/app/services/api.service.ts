@@ -4,15 +4,17 @@ import { lastValueFrom, map, Observable, Subject, take } from 'rxjs';
 import { Sentence } from '@backend/sentence.interface';
 import { Story } from '@backend/story.interface';
 import { SocketService } from './socket.service';
+import { StateService } from './state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private currentStoryId: number | undefined = undefined;
-  public currentSentence: Subject<Sentence> = new Subject();
-
-  constructor(private http: HttpClient, private socketService: SocketService) {}
+  constructor(
+    private http: HttpClient,
+    private socketService: SocketService,
+    private stateService: StateService
+  ) {}
 
   public async requestNextSentence(): Promise<void> {
     let nextStoryId: number = await lastValueFrom(
@@ -23,7 +25,7 @@ export class ApiService {
         .pipe(map((story) => story.id))
     );
 
-    this.currentStoryId = nextStoryId;
+    this.stateService.storyId$.next(nextStoryId);
     this.socketService.verifyReceivedStoryId(nextStoryId);
 
     this.http
@@ -31,11 +33,11 @@ export class ApiService {
         'http://localhost:3000/api/sentence/last/' +
           nextStoryId +
           '/' +
-          this.socketService.getUserId()
+          this.stateService.getUserId()
       )
       .pipe(take(1))
       .subscribe((sentence) => {
-        this.currentSentence.next(sentence);
+        this.stateService.sentence$.next(sentence);
       });
   }
 
@@ -43,9 +45,9 @@ export class ApiService {
     const res = this.http.post('http://localhost:3000/api/sentence', {
       content: text,
       language: 'en',
-      userId: this.socketService.getUserId(),
+      userId: this.stateService.getUserId(),
       authorMail: null,
-      story: this.currentStoryId,
+      story: this.stateService.storyId$.getValue(),
     });
     return res;
   }
