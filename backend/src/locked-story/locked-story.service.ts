@@ -11,12 +11,12 @@ export class LockedStoryService {
     private readonly lockedStoryRepository: Repository<LockedStoryEntity>,
   ) {}
 
-  add(lockedStory: LockedStory): void {
-    this.lockedStoryRepository.save(lockedStory);
+  async add(lockedStory: LockedStory): Promise<void> {
+    await this.lockedStoryRepository.save(lockedStory);
   }
 
-  remove(clientId: string): void {
-    this.lockedStoryRepository.delete({ clientId });
+  async remove(clientId: string): Promise<void> {
+    await this.lockedStoryRepository.delete({ clientId });
   }
 
   async has(clientId: string): Promise<boolean> {
