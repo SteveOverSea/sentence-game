@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { Sentence } from 'src/entities/public/sentence.interface';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { SentenceService } from './sentence.service';
@@ -36,7 +36,7 @@ export class SentenceController {
 
   @Post()
   create(@Body() sentence: Sentence): Observable<Sentence> {
-    return this.sentenceService.createAndUnlock(sentence);
+    return from(this.sentenceService.createAndUnlock(sentence));
   }
 
   @Put(':id')

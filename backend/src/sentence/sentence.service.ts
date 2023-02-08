@@ -5,6 +5,7 @@ import { SentenceEntity } from 'src/entities/sentence.entity';
 import { Sentence } from 'src/entities/public/sentence.interface';
 import { DeleteResult, Not, Repository, UpdateResult } from 'typeorm';
 import { StoryEntity } from 'src/entities/story.entity';
+import { APP_CONFIG } from 'src/config/app.config';
 
 @Injectable()
 export class SentenceService {
@@ -60,12 +61,31 @@ export class SentenceService {
     );
   }
 
-  createAndUnlock(sentence: Sentence): Observable<Sentence> {
+  async createAndUnlock(sentence: Sentence): Promise<Sentence> {
     this.storyRepository.update(sentence.story, {
       isLocked: false,
       lastEditedBy: sentence.userId,
     });
-    return from(this.sentenceRepository.save(sentence));
+
+    const count = await this.sentenceRepository.count({
+      relations: {
+        story: true,
+      },
+      where: {
+        story: {
+          // the frontend only has the storyId in story
+          id: sentence.story as unknown as number,
+        },
+      },
+    });
+
+    if (count === APP_CONFIG.MAX_SENTENCES_PER_STORY - 1) {
+      this.storyRepository.update(sentence.story, {
+        isFinished: true,
+      });
+    }
+
+    return this.sentenceRepository.save(sentence);
   }
 
   update(id: number, sentence: Sentence): Observable<UpdateResult> {
