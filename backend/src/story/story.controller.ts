@@ -39,6 +39,16 @@ export class StoryController {
     return this.storyService.getFirstUnlockedAndLock(userId);
   }
 
+  @Get('popular')
+  getPopular(): Observable<Story[]> {
+    return this.storyService.getPopularStories();
+  }
+
+  @Get('random')
+  getRandom(): Observable<Story[]> {
+    return this.storyService.getRandomStories();
+  }
+
   @Get(':id')
   getOne(@Param('id') id: number): Observable<Story> {
     return this.storyService.getOne(id);

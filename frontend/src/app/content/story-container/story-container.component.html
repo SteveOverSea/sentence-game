@@ -1,1 +1,5 @@
 <h1>This is the story container for {{ router.url }}</h1>
+<div *ngFor="let story of (this.stories$ | async)">
+    <h2>{{ story.upvotes }}</h2>
+    <p *ngFor="let sentence of story.sentences">{{ sentence.content }}</p>
+</div>

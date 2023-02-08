@@ -35,6 +35,38 @@ export class StoryService {
     );
   }
 
+  getRandomStories(): Observable<Story[]> {
+    // TODO this is not random yet
+    return from(
+      this.storyRepository.find({
+        relations: {
+          sentences: true,
+        },
+        where: {
+          isFinished: true,
+        },
+        take: 3,
+      }),
+    );
+  }
+
+  getPopularStories(): Observable<Story[]> {
+    return from(
+      this.storyRepository.find({
+        relations: {
+          sentences: true,
+        },
+        where: {
+          isFinished: true,
+        },
+        order: {
+          upvotes: 'DESC',
+        },
+        take: 3,
+      }),
+    );
+  }
+
   getFirstUnlockedAndLock(userId: string): Observable<Story> {
     return from(this.findFirstUnlockedAndLock(userId));
   }

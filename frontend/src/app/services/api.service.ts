@@ -51,4 +51,12 @@ export class ApiService {
     });
     return res;
   }
+
+  public getRandomStories(): Observable<Story[]> {
+    return this.http.get<Story[]>('http://localhost:3000/api/story/random');
+  }
+
+  public getPopularStories(): Observable<Story[]> {
+    return this.http.get<Story[]>('http://localhost:3000/api/story/popular');
+  }
 }
