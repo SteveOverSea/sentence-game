@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { from, Observable } from 'rxjs';
 import { StoryEntity } from 'src/entities/story.entity';
 import { Story } from 'src/entities/public/story.interface';
-import { DeleteResult, Not, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, IsNull, Not, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class StoryService {
@@ -44,10 +44,18 @@ export class StoryService {
       relations: {
         sentences: true,
       },
-      where: {
-        isLocked: false,
-        lastEditedBy: Not(userId),
-      },
+      where: [
+        {
+          isFinished: false,
+          isLocked: false,
+          lastEditedBy: Not(userId),
+        },
+        {
+          isFinished: false,
+          isLocked: false,
+          lastEditedBy: IsNull(),
+        },
+      ],
     });
 
     if (firstUnlocked === null) {

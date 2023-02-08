@@ -30,7 +30,6 @@ export class StoryController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ): Observable<Story> {
-    console.log('get story', request.cookies);
     let userId = request.cookies.userId;
     if (!userId) {
       userId = randomUUID();
