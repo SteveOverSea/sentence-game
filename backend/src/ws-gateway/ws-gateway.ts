@@ -7,11 +7,12 @@ import {
   WebSocketGateway,
 } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
+import { APP_CONFIG } from 'src/config/app.config';
 import { LockedStoryService } from 'src/locked-story/locked-story.service';
 import { SentenceService } from 'src/sentence/sentence.service';
 import { StoryService } from 'src/story/story.service';
 
-@WebSocketGateway(3030, { cors: 'http://localhost:4200' })
+@WebSocketGateway(APP_CONFIG.SOCKET_PORT, { cors: process.env.FRONTEND_URL })
 export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private storyService: StoryService,

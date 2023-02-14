@@ -10,8 +10,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { CookieService } from 'ngx-cookie-service';
 import { StoryContainerModule } from './content/story-container/story-container.module';
+import { environment } from 'src/environment/environment';
 
-const config: SocketIoConfig = { url: 'http://localhost:3030' };
+const config: SocketIoConfig = { url: environment.socketUrl };
 
 @NgModule({
   declarations: [AppComponent],
